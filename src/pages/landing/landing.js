@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Redirect } from "react-router-dom";
 import { connect } from "react-redux";
-import { Button, Row, Col } from "react-bootstrap";
+import { Button, Row, Col, Container } from "react-bootstrap";
 import DBUtils from "../../utils/DBUtils";
 import GameUtils from "../../utils/GameUtils";
 import "./landing.scss";
@@ -45,8 +45,10 @@ const Landing = () => {
         // join the game
         const gameData = await GameUtils.joinGame(code, currentPlayer);
         // this.setState({ errorMessage: "Joined Successfully" })
+
         //todo: redux selectors
         // this.props.dispatch({ type: "ADD_GAME_DATA", payload: gameData });
+
         // navigate to another page
         setNavigateTo("/lobby");
       } catch (err) {
@@ -70,45 +72,47 @@ const Landing = () => {
   });
 
   return (
-    <div className="container">
-      <Row className="landing-container">
-        <Col>
-          <div className="name">
-            <input
-              type="text"
-              maxLength="15"
-              value={name}
-              onChange={e => setName(e.target.value)}
-              placeholder="Enter your display name..."
-            />
-          </div>
+    <div className="bg-dark page">
+      <Container>
+        <Row className="landing-container">
+          <Col>
+            <div className="name">
+              <input
+                type="text"
+                maxLength="15"
+                value={name}
+                onChange={e => setName(e.target.value)}
+                placeholder="Enter your display name..."
+              />
+            </div>
 
-          <div className="code">
-            <input
-              type="text"
-              maxLength="6"
-              value={code}
-              onChange={e => setCode(e.target.value)}
-              placeholder="Enter a 6 digit code..."
-            />
-          </div>
+            <div className="code">
+              <input
+                type="text"
+                maxLength="6"
+                value={code}
+                onChange={e => setCode(e.target.value)}
+                placeholder="Enter a 6 digit code..."
+              />
+            </div>
 
-          <div className="submit">
-            <Button variant="primary" onClick={() => joinGame()}>
-              Join Game
+            <div className="submit">
+              <Button variant="primary" onClick={() => joinGame()}>
+                Join Game
+              </Button>
+            </div>
+          </Col>
+        </Row>
+        <Row className="landing-container">
+          <Col>
+            {/* <p>{this.state.errorMessage}</p> */}
+            <Button variant="primary" onClick={() => newGame()}>
+              Start New Game
             </Button>
-          </div>
-        </Col>
-      </Row>
-      <Row className="landing-container">
-        <Col>
-          {/* <p>{this.state.errorMessage}</p> */}
-          <Button variant="primary" onClick={() => newGame()}>
-            Start New Game
-          </Button>
-          <p>Ask your friends to join: {gameCode}</p>
-        </Col>
-      </Row>
+            <p>Ask your friends to join: {gameCode}</p>
+          </Col>
+        </Row>
+      </Container>
     </div>
   );
 };
