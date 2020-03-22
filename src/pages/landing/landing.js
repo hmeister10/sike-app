@@ -1,135 +1,116 @@
-import React from 'react';
-import { Redirect } from 'react-router-dom';
-import { connect } from 'react-redux';
-import { Button, Row, Col } from 'react-bootstrap';
-import DBUtils from '../../utils/DBUtils';
-import GameUtils from '../../utils/GameUtils';
-import './landing.scss';
+import React, { useState, useEffect } from "react";
+import { Redirect } from "react-router-dom";
+import { connect } from "react-redux";
+import { Button, Row, Col } from "react-bootstrap";
+import DBUtils from "../../utils/DBUtils";
+import GameUtils from "../../utils/GameUtils";
+import "./landing.scss";
 
-const mapStateToProps = (state) => {
+//todo: neha replace this with selectors
+const mapStateToProps = state => {
   return {
     ...state
   };
-}
+};
 
-class Landing extends React.Component {
+//todo: all error messages missing. Add them.
+const Landing = () => {
+  const [code, setCode] = useState("");
+  const [name, setName] = useState("");
+  const [gameCode, setGameCode] = useState(0);
+  const [navigateTo, setNavigateTo] = useState("");
 
-  constructor(props, context) {
-    super(props, context)
-
-    this.state = {
-      code: '',
-      name: '',
-      navigateTo: ''
+  const newGame = async () => {
+    console.log("Start a new game");
+    if (name) {
+      const gameCode = await GameUtils.startNewGame(name, 3);
+      setGameCode(gameCode);
+    } else {
+      console.log(name);
+      console.log("we can't do shit");
+      // TODO: show error
+      // this.setState({ errorMessage: "You have not entered a name" });
     }
-  }
+  };
 
-  async componentWillMount() {
-    const data = await DBUtils.getData('questions')
-    console.log(data);
-  }
-
-  handleCodeChange(e) {
-    this.setState({ code: e.target.value });
-  }
-
-  handleNameChange(e) {
-    this.setState({ name: e.target.value });
-  }
-
-  async joinGame() {
-    let code = this.state.code || 0
-    const currentPlayer = this.state.name
+  const joinGame = async () => {
+    // let code = code;
+    const currentPlayer = name;
 
     // this checks if the code exists
     // if it has maximum of 6 characters
     // if it is only digits and 6 digits
     if (code && code.length === 6 && code.match(/\d{6}/)) {
-
       try {
         // join the game
-        const gameData = await GameUtils.joinGame(code, currentPlayer)
-        this.setState({ errorMessage: "Joined Successfully" })
-        this.props.dispatch({ type: 'ADD_GAME_DATA', payload: gameData });
-
+        const gameData = await GameUtils.joinGame(code, currentPlayer);
+        // this.setState({ errorMessage: "Joined Successfully" })
+        //todo: redux selectors
+        // this.props.dispatch({ type: "ADD_GAME_DATA", payload: gameData });
         // navigate to another page
-        this.setState({ navigateTo: "/lobby" })
-
-
+        setNavigateTo("/lobby");
       } catch (err) {
         // TODO: show error
         console.log(err);
-        this.setState({ errorMessage: "Something went wrong while joining the game" })
+        // this.setState({ errorMessage: "Something went wrong while joining the game" })
       }
     } else {
       // TODO: Show error
-      this.setState({ errorMessage: "You have entered an incorrect code" })
-
+      // this.setState({ errorMessage: "You have entered an incorrect code" })
     }
+  };
 
-  }
+  useEffect(() => {
+    const getQuestions = async () => {
+      await DBUtils.getData("questions");
+    };
 
-  async newGame() {
-    console.log('Start a new game');
-    if (this.state.name) {
-      const gameCode = await GameUtils.startNewGame(this.state.name, 3)
-      this.setState({ gameCode })
-    } else {
-      // TODO: show error
-      this.setState({ errorMessage: "You have not entered a name" })
-    }
-  }
+    const data = getQuestions();
+    console.log(data);
+  });
 
-  render() {
+  return (
+    <div className="container">
+      <Row className="landing-container">
+        <Col>
+          <div className="name">
+            <input
+              type="text"
+              maxLength="15"
+              value={name}
+              onChange={e => setName(e.target.value)}
+              placeholder="Enter your display name..."
+            />
+          </div>
 
-    if (this.state.navigateTo !== '') {
-      return <Redirect to={this.state.navigateTo} />
-    }
+          <div className="code">
+            <input
+              type="text"
+              maxLength="6"
+              value={code}
+              onChange={e => setCode(e.target.value)}
+              placeholder="Enter a 6 digit code..."
+            />
+          </div>
 
-    return (
-      <div>
-        <Row className="landing-container">
-          <Col>
-            <div className="name">
-              <input
-                type="text"
-                maxLength="15"
-                value={this.state.name}
-                onChange={this.handleNameChange.bind(this)}
-                placeholder="Enter your display name..." />
-            </div>
-
-            <div className="code">
-              <input
-                type="text"
-                maxLength="6"
-                value={this.state.code}
-                onChange={this.handleCodeChange.bind(this)}
-                placeholder="Enter a 6 digit code..." />
-            </div>
-
-            <div className="submit">
-
-              <Button variant="primary" onClick={this.joinGame.bind(this)}>Join Game</Button>
-
-            </div>
-
-          </Col>
-        </Row>
-        <Row className="landing-container">
-          <Col>
-            <p>{this.state.errorMessage}</p>
-            <Button variant="primary" onClick={this.newGame.bind(this)}>Start New Game</Button>
-            <p>Ask your friends to join: {this.state.gameCode}</p>
-          </Col>
-        </Row>
-
-      </div>
-
-    );
-  }
-}
+          <div className="submit">
+            <Button variant="primary" onClick={() => joinGame()}>
+              Join Game
+            </Button>
+          </div>
+        </Col>
+      </Row>
+      <Row className="landing-container">
+        <Col>
+          {/* <p>{this.state.errorMessage}</p> */}
+          <Button variant="primary" onClick={() => newGame()}>
+            Start New Game
+          </Button>
+          <p>Ask your friends to join: {gameCode}</p>
+        </Col>
+      </Row>
+    </div>
+  );
+};
 
 export default connect(mapStateToProps)(Landing);
-
-
