@@ -16,7 +16,7 @@ import Header from "./components/header/header";
 function RouteData() {
   return (
     <Router>
-      <div>
+      <div className="page">
         {/*
         A <Switch> looks through all its children <Route>
         elements and renders the first one whose path
@@ -48,7 +48,7 @@ function RouteData() {
 
 function App() {
   return (
-    <div>
+    <div className="h-100">
       <Header />
       <RouteData />
     </div>

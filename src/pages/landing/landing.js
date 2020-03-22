@@ -72,44 +72,59 @@ const Landing = () => {
   });
 
   return (
-    <div className="bg-dark page">
-      <Container>
-        <Row className="landing-container">
+    <div className="bg-dark h-100">
+      <Container className="h-100">
+        <Row className="landing-container h-100 align-items-stretch">
           <Col>
-            <div className="name">
-              <input
-                type="text"
-                maxLength="15"
-                value={name}
-                onChange={e => setName(e.target.value)}
-                placeholder="Enter your display name..."
-              />
-            </div>
+            <div className="h-100 d-flex flex-column justify-content-start align-items-center">
+              <div className="name w-100 mb-3">
+                <input
+                  className="form-control"
+                  type="text"
+                  maxLength="15"
+                  value={name}
+                  onChange={e => setName(e.target.value)}
+                  placeholder="Enter your display name..."
+                />
+              </div>
 
-            <div className="code">
-              <input
-                type="text"
-                maxLength="6"
-                value={code}
-                onChange={e => setCode(e.target.value)}
-                placeholder="Enter a 6 digit code..."
-              />
-            </div>
+              <div className="code w-100 mb-3">
+                <input
+                  className="form-control"
+                  type="text"
+                  maxLength="6"
+                  value={code}
+                  onChange={e => setCode(e.target.value)}
+                  placeholder="Enter a 6 digit code..."
+                />
+              </div>
 
-            <div className="submit">
-              <Button variant="primary" onClick={() => joinGame()}>
-                Join Game
+              <div className="submit w-100 mb-3">
+                <Button
+                  variant="primary"
+                  onClick={() => joinGame()}
+                  className="w-100"
+                >
+                  Join Game
+                </Button>
+              </div>
+
+              {/* <p>{this.state.errorMessage}</p> */}
+              <Button
+                variant="primary"
+                onClick={() => newGame()}
+                className="w-100 mb-4"
+              >
+                Start New Game
               </Button>
+              {gameCode ? (
+                <p className="text-center">
+                  Ask your friends to join: {gameCode}
+                </p>
+              ) : (
+                ""
+              )}
             </div>
-          </Col>
-        </Row>
-        <Row className="landing-container">
-          <Col>
-            {/* <p>{this.state.errorMessage}</p> */}
-            <Button variant="primary" onClick={() => newGame()}>
-              Start New Game
-            </Button>
-            <p>Ask your friends to join: {gameCode}</p>
           </Col>
         </Row>
       </Container>
