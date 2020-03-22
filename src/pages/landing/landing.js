@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Redirect } from "react-router-dom";
 import { connect } from "react-redux";
+import { guestLogin } from "../../api/auth";
 import { Button, Row, Col, Container } from "react-bootstrap";
 import DBUtils from "../../utils/DBUtils";
 import GameUtils from "../../utils/GameUtils";
@@ -59,6 +60,12 @@ const Landing = () => {
     } else {
       // TODO: Show error
       // this.setState({ errorMessage: "You have entered an incorrect code" })
+    }
+  };
+
+  const login = async () => {
+    if (name && name.length >= 3) {
+      guestLogin(name);
     }
   };
 
