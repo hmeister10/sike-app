@@ -1,7 +1,5 @@
-import { combineReducers } from 'redux'
-import {
-  ADD_GAME_DATA,
-} from './actions'
+import { combineReducers } from "redux";
+import { ADD_GAME_DATA, ADD_USER_DATA } from "./actions";
 
 function gameData(state = {}, action) {
   switch (action.type) {
@@ -9,14 +7,27 @@ function gameData(state = {}, action) {
       return {
         ...state,
         ...action.payload
-      }
+      };
     default:
-      return state
+      return state;
+  }
+}
+
+function userData(state = {}, action) {
+  switch (action.type) {
+    case ADD_USER_DATA:
+      return {
+        ...state,
+        ...action.payload
+      };
+    default:
+      return state;
   }
 }
 
 const rootReducer = combineReducers({
-  gameData
-})
+  gameData,
+  userData
+});
 
-export default rootReducer
+export default rootReducer;
