@@ -3,24 +3,19 @@ const db = firebase.database;
 
 const getData = (topic) => {
  return new Promise((resolve, reject) => {
-  const questionsRef = db().ref(topic)
+  const ref = db().ref(topic)
 
-  questionsRef.on('value', (snapshot) => {
+  ref.on('value', (snapshot) => {
    resolve(snapshot.val());
   })
  });
 }
 
-// const getDataStream = (topic) => {
-//  return new Promise((resolve, reject) => {
-//   const questionsRef = db().ref(topic)
-
-//   questionsRef.on('value', (snapshot) => {
-//    resolve(snapshot.val());
-//   })
-//  });
-// }
+const writeData = (topic, payload) => {
+ db().ref(topic).set(payload);
+}
 
 export default {
- getData
+ getData,
+ writeData
 }
