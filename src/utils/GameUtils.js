@@ -18,6 +18,7 @@ const joinGame = async (code, currentPlayerName) => {
     name: currentPlayerName
    }
 
+   // check for an existing player and increment the ID if the name is the same
    let count = 0;
    let userExists = true;
    let newPlayerId = currentPlayer.id;
@@ -38,11 +39,8 @@ const joinGame = async (code, currentPlayerName) => {
    DBUtils.writeData(`games/${code}`, gameData)
 
 
-   // save data to store
-   console.log(gameData);
-   return true;
-
-   // navigate to the game welcome page
+   // return game data
+   return gameData;
   } else {
    console.log('NO GAME DATA');
    throw new Error('no data');

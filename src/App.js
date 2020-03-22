@@ -1,9 +1,11 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import {
   BrowserRouter as Router,
   Switch,
   Route
 } from "react-router-dom";
+
 
 import { Container, Row, Col } from 'react-bootstrap';
 import './App.scss';
@@ -62,7 +64,6 @@ function App() {
       <Row>
       </Row>
     </Container>
-
   );
 }
 

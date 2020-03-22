@@ -1,15 +1,21 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import { Button, Row, Col } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
-import './landing.scss';
 import DBUtils from '../../utils/DBUtils';
 import GameUtils from '../../utils/GameUtils';
+import './landing.scss';
 
-export default class Landing extends React.Component {
+const mapStateToProps = (state) => {
+  return {
+    number: state.number
+  };
+}
 
+class Landing extends React.Component {
 
   constructor(props, context) {
     super(props, context)
+    console.log(props);
     this.state = {
       code: '',
       name: ''
@@ -40,8 +46,10 @@ export default class Landing extends React.Component {
 
       try {
         // join the game
-        await GameUtils.joinGame(code, currentPlayer)
+        const gameData = await GameUtils.joinGame(code, currentPlayer)
         this.setState({ errorMessage: "Joined Successfully" })
+        this.props.dispatch({ type: 'ADD_GAME_DATA', payload: gameData });
+
       } catch (err) {
         // TODO: show error
         console.log(err);
@@ -110,5 +118,7 @@ export default class Landing extends React.Component {
     );
   }
 }
+
+export default connect(mapStateToProps)(Landing);
 
 
