@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import {
   BrowserRouter as Router,
   Switch,
@@ -12,7 +11,7 @@ import './App.scss';
 
 // Components
 import Landing from './components/landing/landing';
-import Profile from './components/profile/profile';
+import Lobby from './components/lobby/lobby';
 import Question from './components/question/question';
 import Results from './components/results/results';
 import Voting from './components/voting/voting';
@@ -31,8 +30,8 @@ function RouteData() {
         <Route exact path="/">
           <Landing />
         </Route>
-        <Route path="/profile">
-          <Profile />
+        <Route path="/lobby">
+          <Lobby />
         </Route>
         <Route path="/question">
           <Question />

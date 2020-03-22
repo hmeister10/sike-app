@@ -1,4 +1,5 @@
 import React from 'react';
+import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { Button, Row, Col } from 'react-bootstrap';
 import DBUtils from '../../utils/DBUtils';
@@ -7,7 +8,7 @@ import './landing.scss';
 
 const mapStateToProps = (state) => {
   return {
-    number: state.number
+    ...state
   };
 }
 
@@ -15,10 +16,11 @@ class Landing extends React.Component {
 
   constructor(props, context) {
     super(props, context)
-    console.log(props);
+
     this.state = {
       code: '',
-      name: ''
+      name: '',
+      navigateTo: ''
     }
   }
 
@@ -50,6 +52,10 @@ class Landing extends React.Component {
         this.setState({ errorMessage: "Joined Successfully" })
         this.props.dispatch({ type: 'ADD_GAME_DATA', payload: gameData });
 
+        // navigate to another page
+        this.setState({ navigateTo: "/lobby" })
+
+
       } catch (err) {
         // TODO: show error
         console.log(err);
@@ -64,7 +70,7 @@ class Landing extends React.Component {
   }
 
   async newGame() {
-    console.log('Start a new game')
+    console.log('Start a new game');
     if (this.state.name) {
       const gameCode = await GameUtils.startNewGame(this.state.name, 3)
       this.setState({ gameCode })
@@ -75,6 +81,11 @@ class Landing extends React.Component {
   }
 
   render() {
+
+    if (this.state.navigateTo !== '') {
+      return <Redirect to={this.state.navigateTo} />
+    }
+
     return (
       <div>
         <Row className="landing-container">
