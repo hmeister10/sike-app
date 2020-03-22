@@ -1,18 +1,4 @@
 @import "~bootstrap/scss/mixins";
-@import "variables";
+@import "./assets/styles/variables";
 @import "../node_modules/bootstrap/scss/bootstrap.scss";
-
-html,
-body,
-#root {
-  min-height: 100%;
-  height: 100%;
-}
-
-.page {
-  height: calc(100% - 185px);
-}
-
-// .full-height {
-//   height: 100vh;
-// }
+@import "./assets/styles/global";
