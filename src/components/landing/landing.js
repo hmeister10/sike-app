@@ -41,11 +41,15 @@ export default class Landing extends React.Component {
       try {
         // join the game
         await GameUtils.joinGame(code, currentPlayer)
+        this.setState({ errorMessage: "Joined Successfully" })
       } catch (err) {
         // TODO: show error
+        console.log(err);
+        this.setState({ errorMessage: "Something went wrong while joining the game" })
       }
     } else {
       // TODO: Show error
+      this.setState({ errorMessage: "You have entered an incorrect code" })
 
     }
 
@@ -58,6 +62,7 @@ export default class Landing extends React.Component {
       this.setState({ gameCode })
     } else {
       // TODO: show error
+      this.setState({ errorMessage: "You have not entered a name" })
     }
   }
 
@@ -86,7 +91,6 @@ export default class Landing extends React.Component {
 
             <div className="submit">
 
-              {/* TODO: add eror message here */}
               <Button variant="primary" onClick={this.joinGame.bind(this)}>Join Game</Button>
 
             </div>
@@ -95,7 +99,7 @@ export default class Landing extends React.Component {
         </Row>
         <Row className="landing-container">
           <Col>
-
+            <p>{this.state.errorMessage}</p>
             <Button variant="primary" onClick={this.newGame.bind(this)}>Start New Game</Button>
             <p>Ask your friends to join: {this.state.gameCode}</p>
           </Col>

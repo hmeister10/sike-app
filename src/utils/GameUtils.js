@@ -33,12 +33,14 @@ const joinGame = async (code, currentPlayerName) => {
    } while (userExists)
 
    // save user to the game
+   currentPlayer['id'] = newPlayerId;
    gameData.players.push(currentPlayer);
    DBUtils.writeData(`games/${code}`, gameData)
 
 
    // save data to store
    console.log(gameData);
+   return true;
 
    // navigate to the game welcome page
   } else {
