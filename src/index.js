@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import * as firebase from 'firebase';
 
-import config from '../firebase.config';
+import config from './firebase.config';
 
 import './index.scss';
 import App from './App';

@@ -1,23 +1,32 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import './landing.scss';
+import DBUtils from '../../utils/DBUtils';
 
-function Landing() {
-  return (
-    <div className="landing-container">
-      SIKE!!!
-      <ul>
-        <li>
-          <Link to="/profile">Profile</Link>
-        </li>
-        <li>
-          <Link to="/question">START NEW GAME</Link>
+export default class Landing extends React.Component {
 
-        </li>
-      </ul>
+  async componentWillMount() {
+    const data = await DBUtils.getData('questions')
+    console.log(data);
+  }
 
-    </div>
-  );
+  render() {
+    return (
+      <div className="landing-container">
+        SIKE!!!
+        <ul>
+          <li>
+            <Link to="/profile">Profile</Link>
+          </li>
+          <li>
+            <Link to="/question">START NEW GAME</Link>
+
+          </li>
+        </ul>
+
+      </div>
+    );
+  }
 }
 
-export default Landing;
+
