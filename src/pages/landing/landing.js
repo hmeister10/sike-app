@@ -18,7 +18,7 @@ const mapStateToProps = state => {
 //todo: all error messages missing. Add them.
 const Landing = () => {
   const [code, setCode] = useState("");
-  const [name, setName] = useState("Neha");
+  const [name, setName] = useState("");
   const [gameCode, setGameCode] = useState(0);
   const [navigateTo, setNavigateTo] = useState("");
   const [test, setTest] = useState({});
