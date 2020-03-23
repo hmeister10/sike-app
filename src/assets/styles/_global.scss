@@ -8,3 +8,8 @@ body,
 .page {
   height: calc(100% - 185px);
 }
+
+.text-bold {
+  font-family: $headings-font-family;
+  font-weight: $headings-font-weight;
+}

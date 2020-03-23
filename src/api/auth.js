@@ -9,7 +9,5 @@ export const guestLogin = async name => {
     }
   );
 
-  console.log(result);
-
   return result;
 };

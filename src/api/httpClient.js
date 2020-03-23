@@ -3,7 +3,11 @@ const callApi = async requestParams => {
 
   const options = {
     method,
-    headers: { "Content-Type": "application/json" }
+    headers: {
+      "Content-Type": "application/json",
+      Authorization:
+        "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Mywicm9sZSI6Imd1ZXN0IiwiaWF0IjoxNTg0OTA1MjIyLCJleHAiOjE2MTY0NjI4MjJ9.O2gU-TWcz4_CAwctKz1IprrTQMaF4ImbJru0WKk04Cc"
+    }
   };
 
   let finalUrl = url;

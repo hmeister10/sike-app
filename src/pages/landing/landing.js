@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Redirect } from "react-router-dom";
 import { useSelector, useDispatch, connect } from "react-redux";
 import { guestLogin } from "../../api/auth";
+import { createGame } from "../../api/game";
 import { Button, Row, Col, Container } from "react-bootstrap";
 import DBUtils from "../../utils/DBUtils";
 import GameUtils from "../../utils/GameUtils";
@@ -17,7 +18,7 @@ const mapStateToProps = state => {
 //todo: all error messages missing. Add them.
 const Landing = () => {
   const [code, setCode] = useState("");
-  const [name, setName] = useState("");
+  const [name, setName] = useState("Neha");
   const [gameCode, setGameCode] = useState(0);
   const [navigateTo, setNavigateTo] = useState("");
   const [test, setTest] = useState({});
@@ -27,8 +28,9 @@ const Landing = () => {
   const newGame = async () => {
     console.log("Start a new game");
     if (name) {
-      const gameCode = await GameUtils.startNewGame(name, 3);
-      setGameCode(gameCode);
+      // const gameCode = await GameUtils.startNewGame(name, 3);
+      const gameDetails = await createGame();
+      setGameCode(gameDetails.identifier);
     } else {
       console.log(name);
       console.log("we can't do shit");
@@ -96,7 +98,7 @@ const Landing = () => {
           <Col>
             <div className="h-100 d-flex flex-column justify-content-start align-items-center">
               {name ? (
-                <>
+                <div className="text-light w-100 text-center">
                   <h2>Hello, {name}!</h2>
                   <div className="submit w-100 mb-3">
                     <Button
@@ -115,8 +117,19 @@ const Landing = () => {
                     >
                       Start New Game
                     </Button>
+                    {gameCode ? (
+                      <p className="text-center">
+                        Ask your friends to join:{" "}
+                        <span className="text-primary text-bold">
+                          {" "}
+                          {gameCode}
+                        </span>
+                      </p>
+                    ) : (
+                      ""
+                    )}
                   </div>
-                </>
+                </div>
               ) : (
                 <>
                   <h2 className="my-4 text-light">Welcome :)</h2>
